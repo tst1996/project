@@ -1,0 +1,154 @@
+
+create table jftable
+(id int primary key,
+name varchar(10) not null,
+class char(6),
+moneynum int 
+)character set utf8;
+
+create table bjtable
+(stu_id int,
+name varchar(10) not null,
+moneynum int
+foreign key(stu_id) references jitable(id)
+on delete cascade
+on update cascade
+
+)character set utf8;
+
+
+select name,gongji,country from sanguo 
+where 
+(country,gongji) in (
+select country,max(gongji) from sanguo
+group by country
+)
+
+
+select sheng.s_name,city.c_name from sheng,city
+where
+sheng.s_id=city.cfather_id;
+
+select sheng.s_name,city.c_name,xian.x_name from sheng,city,xian
+where
+sheng.s_id=city.cfather_id and city.c_id=xian.xfather_id
+
+
+
+select sheng.s_name,city.c_name from sheng
+inner join city 
+on sheng.s_id=city.cfather_id
+
+
+select sheng.s_name,city.c_name,xian.x_name from sheng
+inner join city
+on sheng.s_id=city.cfather_id
+inner join xian
+on city.c_id=xian.xfather_id
+
+
+
+
+select sheng.s_name,city.c_name,xian.x_name from sheng
+left join city
+on sheng.s_id=city.cfather_id
+left join xian
+on city.c_id=xian.xfather_id
+
+
+grant select ondb4.*
+to "rabbit"@ indetified by "123"
+with grant option
+
+
+
+
+-------------------------------------------------------------------------------------------------------
+
+create table customer (
+c_id int primary key auto_increment,
+c_name varchar(20),
+c_age tinyint,
+c_sex enum("M","F"),
+c_city varchar(20),
+c_salary decimal(12,2)
+)character set utf8;
+ 
+insert into customer values
+    (1,"Zhangsan",25,"M","Beijing",8000),
+    (2,"Lisi",30,"F","Shanghai",10000),
+    (3,"Wangwu",27,"M","Shenzhen",3000);
+
+
+
+create table orders(
+o_id int,
+o_name varchar(30),
+o_price decimal(12,2),
+foreign key(o_id) references customer(c_id)
+on delete cascade
+on update cascade
+)character set utf8;
+
+ insert into orders values
+    (1,"iphone",5288),
+    (1,"ipad",3299),
+    (3,"mate9",3688),
+    (2,"iwatch",2222),
+    (2,"r11",4400);
+
+
+
+select * from customer 
+where c_age<29 or c_salary >4000
+limit 2
+
+
+
+select c_id,c_name,c_age,c_sex,c_salary*1.15 from customer 
+where c_age>=25 or c_city="Beijing"
+
+update customer set c_salary=c_salary*1.15
+where c_age>=25 or c_city="Beijing"
+
+
+select c_id,c_name,c_age,c_sex,c_salary from customer 
+where c_city="Shanghai" or c_city="Beijing"and (c_age>=25)
+order by c_salary desc
+limit 1
+
+
+
+select c_id,c_name,c_age,c_sex,c_salary from customer
+where c_salary=(
+select min(c_salary) from customer);
+
+
+
+
+select * from orders 
+where o_id in
+(select c_id from customer 
+where c_salary>5000
+
+
+
+
+alter table orders drop foreign key orders_ibfk_1 
+
+alter table customer modify c_id int
+
+alter table customer drop primary key
+
+------------------------------------------------------------------------
+
+
+
+
+
+
+
+create table user(
+name varchar(30),
+passwork varchar(50))character set utf8;
+insert into user values("Tom","7c4a8d09ca3762af61e595209 43dc26494f8941b")
